@@ -1,0 +1,28 @@
+import requests
+from bs4 import BeautifulSoup
+import re
+import sys
+
+url = "https://duunitori.fi/tyopaikat/?haku=data+scientist&alue="
+r = requests.get(url)
+
+soup = BeautifulSoup(r.content,"lxml")
+
+links = soup.find_all("a")
+
+linkit = list()
+
+# got an encode error while printing. conversion done here.
+for link in links:
+    eka = link.text
+    toka = link.get("href")
+    eka = eka.encode(sys.stdout.encoding, errors='replace')
+    toka = toka.encode(sys.stdout.encoding, errors='replace')
+    linkit.append((eka,toka))
+
+for link in linkit:
+    if "tyopaikat/tyo" in link[1]:
+        tiedot = filter(None,link[0].split('\n'))
+        joblink = "\nhttps://duunitori.fi"+link[1]+"\n"
+        joblink = joblink.replace(' ','')
+        print tiedot[0], tiedot[1], tiedot[2].replace('?',''), joblink 
