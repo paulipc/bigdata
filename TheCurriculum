@@ -1,0 +1,29 @@
+Module 1
+Introduction to Analytics and Optimization
+
+In this course, you will be introduced to the concepts and methods in information analytics, with a special focus on the notion of optimization as the basis of prescriptive analytics and for creating the learning machine. You will be introduced to the process of problem solving in analytics from data understanding and preprocessing, through modelling choices and implementation until the interpretation, visualization and utilization of the analysis. We will look at typical real-life applications of information analytics from various domains (marketing, ﬁnance, and others depending also on the student’s backgrounds and interests). The course will provide hands-on lectures to performing the steps of modelling and analysis.
+
+Module 2
+Big Data Analytics
+
+You are given an overview of machine learning and how to utilize big data. The methods for descriptive and predictive modelling are introduced for small data, and you are then given an explanation for how similar models can be modified to work with big data. You will be introduced to the analytical process; big data tooling, data-related requirement handling, domain knowledge, modelling and verification of results.
+
+Module 3
+Machine Learning for Predictive Problems
+
+You learn a practical approach for predicting with Machine Learning with all the steps starting from data acquisition and preparation, search for optimal parameters, to comparison of different methods and evaluation of results. You can employ a linear model for regression and classification, train neural networks, build data features with deep learning, represent and process natural text with numerical methods.
+
+Module 4
+Visual Analytics
+
+You learn how to lead in turbulent times through data-driven management. You also learn to understand how to become an agent of change for transforming data into insights. People are often visual beings and therefore the focus of the course is on reducing information, through algorithms, that can then be visualized. You develop an understanding of visual analytical methods as a communication medium for business intelligence.
+
+Module 5
+Machine Learning for Descriptive Problems
+
+You learn to efficiently handle massive datasets and extract hidden knowledge from data. You understand how to employ classification and clustering algorithms on three different types of data: text, streaming and graph. You acquire knowledge of methods and programming tools for processing big data on distributed/cloud systems.
+
+Module 6
+Analytical Service Development
+
+You develop an understanding for planning the analytical process; data-related requirement handling, domain knowledge/modelling expertise and verification of results. Each student completes an industry cap-stone project as part of the course.
