@@ -1,0 +1,920 @@
+###############################################################
+Excercies 1 starts here
+###############################################################
+#####################################################################################################################################
+# Excercise 1: first bullet
+#####################################################################################################################################
+
+Exploratory data analysis: try to understand the different variables using different graphical and non-
+graphical data analysis tools as we have done in the lecture. Identify the variables, based on basic,
+descriptive multivariate analysis methods, that you think have a significant relationship to life expectancy.
+
+Using who.table <- table(who.Population)
+
+This is not very useful since almost all the values occurs only once. This is the same for all the who datasets numeric values.
+
+# Means of all numeric values. Population mean is high since population range is also highest.
+
+> mean(who$Population)
+[1] 36359.97
+> mean(who$Under15)
+[1] 28.73242
+> mean(who$Over60)
+[1] 11.16366
+> mean(who$FertilityRate)
+[1] 2.914819
+> mean(who$ChildMortality)
+[1] 36.14897
+> mean(who$LifeExpectancy)
+[1] 70.01031
+> mean(who$CellularSubscribers)
+[1] 93.52965
+
+# Medians of all numeric values. Population median is quite low when comparing it to range. In density plot density in consentrated
+# to the left side of the chart. In most countries the population is quite low but in few cases it is very high like in China and India.
+
+> median(who$Population)
+[1] 7790
+> median(who$Under15)
+[1] 28.65
+> median(who$Over60)
+[1] 8.53
+> median(who$FertilityRate)
+[1] 2.42
+> median(who$LifeExpectancy)
+[1] 72.5
+> median(who$ChildMortality)
+[1] 18.6
+> median(who$CellularSubscribers)
+[1] 97.745
+
+# Standard deviations of all numeric values:
+#
+# Population variates most, other are far smaller. FertilityRate variates least.
+
+> sd(who$Population) # shows that Population has largest variation
+[1] 137903.1
+> sd(who$Under15)
+[1] 10.53457
+> sd(who$Over60)
+[1] 7.149331
+> sd(who$FertilityRate) # smallest variation
+[1] 1.450493
+> sd(who$LifeExpectancy)
+[1] 9.259075
+> sd(who$ChildMortality)
+[1] 37.99294
+> sd(who$CellularSubscribers)
+[1] 40.78676
+
+Variations of all numeric values:
+
+> var(who$Population) # Highest variation
+[1] 19017276364
+> var(who$Under15)
+[1] 110.9772
+> var(who$Over60)
+[1] 51.11293
+> var(who$FertilityRate) # Lowest variation
+[1] 2.103931
+> var(who$LifeExpectancy)
+[1] 85.73046
+> var(who$LifeExpectancy)
+[1] 85.73046
+> var(who$ChildMortality)
+[1] 1443.463
+> var(who$CellularSubscribers)
+[1] 1663.56
+
+Summaries of all numeric variables:
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+      1    1696    7790   36360   24540 1390000 
+> summary(Under15)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  13.12   18.72   28.65   28.73   37.75   49.99 
+> summary(Over60)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.81    5.20    8.53   11.16   16.69   31.92 
+> summary(FertilityRate)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  1.260   1.832   2.420   2.915   3.768   7.580 
+> summary(LifeExpectancy)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  47.00   64.00   72.50   70.01   76.00   83.00 
+> summary(ChildMortality)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  2.200   8.425  18.600  36.150  55.970 181.600 
+> summary(CellularSubscribers)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   2.57   64.00   97.74   93.53  120.30  196.40
+
+
+
+   
+> describe(who)
+                    vars   n     mean        sd  median  trimmed      mad   min        max      range  skew kurtosis      se
+Country*               1 194    97.50     56.15   97.50    97.50    71.91  1.00     194.00     193.00  0.00    -1.22    4.03
+Region*                2 194     3.15      1.70    3.00     3.06     1.48  1.00       6.00       5.00  0.23    -1.14    0.12
+Population             3 194 36359.97 137903.14 7790.00 13491.03 10764.42  1.00 1390000.00 1389999.00  8.39    74.92 9900.87
+Under15                4 194    28.73     10.53   28.65    28.37    14.35 13.12      49.99      36.87  0.21    -1.20    0.76
+Over60                 5 194    11.16      7.15    8.53    10.37     5.63  0.81      31.92      31.11  0.85    -0.57    0.51
+FertilityRate          6 194     2.91      1.45    2.42     2.73     1.17  1.26       7.58       6.32  1.02     0.08    0.10
+LifeExpectancy         7 194    70.01      9.26   72.50    70.79     8.15 47.00      83.00      36.00 -0.66    -0.55    0.66
+ChildMortality         8 194    36.15     37.99   18.60    29.66    20.76  2.20     181.60     179.40  1.44     1.50    2.73
+CellularSubscribers    9 194    93.53     40.79   97.75    93.56    41.21  2.57     196.41     193.84 -0.02    -0.35    2.93
+
+
+
+> stat.desc(who, basic=TRUE, desc=TRUE, norm=TRUE, p=0.95)
+           Country Region   Population       Under15        Over60 FertilityRate LifeExpectancy ChildMortality CellularSubscribers
+nbr.val         NA     NA 1.940000e+02  1.940000e+02  1.940000e+02  1.940000e+02   1.940000e+02   1.940000e+02        1.940000e+02
+nbr.null        NA     NA 0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00   0.000000e+00   0.000000e+00        0.000000e+00
+nbr.na          NA     NA 0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00   0.000000e+00   0.000000e+00        0.000000e+00
+min             NA     NA 1.000000e+00  1.312000e+01  8.100000e-01  1.260000e+00   4.700000e+01   2.200000e+00        2.570000e+00
+max             NA     NA 1.390000e+06  4.999000e+01  3.192000e+01  7.580000e+00   8.300000e+01   1.816000e+02        1.964100e+02
+range           NA     NA 1.389999e+06  3.687000e+01  3.111000e+01  6.320000e+00   3.600000e+01   1.794000e+02        1.938400e+02
+sum             NA     NA 7.053835e+06  5.574090e+03  2.165750e+03  5.654748e+02   1.358200e+04   7.012900e+03        1.814475e+04
+median          NA     NA 7.790000e+03  2.865000e+01  8.530000e+00  2.420000e+00   7.250000e+01   1.860000e+01        9.774500e+01
+mean            NA     NA 3.635997e+04  2.873242e+01  1.116366e+01  2.914819e+00   7.001031e+01   3.614897e+01        9.352965e+01
+SE.mean         NA     NA 9.900869e+03  7.563383e-01  5.132920e-01  1.041394e-01   6.647628e-01   2.727734e+00        2.928318e+00
+CI.mean         NA     NA 1.952780e+04  1.491750e+00  1.012382e+00  2.053974e-01   1.311133e+00   5.379996e+00        5.775615e+00
+var             NA     NA 1.901728e+10  1.109772e+02  5.111293e+01  2.103931e+00   8.573046e+01   1.443463e+03        1.663560e+03
+std.dev         NA     NA 1.379031e+05  1.053457e+01  7.149331e+00  1.450493e+00   9.259075e+00   3.799294e+01        4.078676e+01
+coef.var        NA     NA 3.792718e+00  3.666441e-01  6.404110e-01  4.976273e-01   1.322530e-01   1.051010e+00        4.360837e-01
+skewness        NA     NA 8.385023e+00  2.057312e-01  8.476122e-01  1.021486e+00  -6.616983e-01   1.437241e+00       -1.608322e-02
+skew.2SE        NA     NA 2.402261e+01  5.894081e-01  2.428360e+00  2.926498e+00  -1.895728e+00   4.117614e+00       -4.607749e-02
+kurtosis        NA     NA 7.491568e+01 -1.203960e+00 -5.714175e-01  7.844500e-02  -5.475066e-01   1.495157e+00       -3.513012e-01
+kurt.2SE        NA     NA 1.078465e+02 -1.733186e+00 -8.225961e-01  1.129272e-01  -7.881748e-01   2.152385e+00       -5.057231e-01
+normtest.W      NA     NA 2.241313e-01  9.410504e-01  8.702869e-01  8.770907e-01   9.307712e-01   8.099771e-01        9.925730e-01
+normtest.p      NA     NA 9.483128e-28  4.033426e-07  7.625302e-12  1.775231e-11   5.695776e-08   1.242597e-14        4.306460e-01
+
+# Interesting values in above table are skewness and kurtosis. These can be verified with hist() function that shows graphically
+# how these variables are distributed.
+
+#
+# From table below we can see that the lowest mean for LifeExpectancy is in Africa region as well as max value for LifeExpectancy.
+# Highest values are in Europe and in Western Pacific
+# 
+> aggregate(LifeExpectancy, by= list(Region), FUN= summary)
+                Group.1 x.Min. x.1st Qu. x.Median x.Mean x.3rd Qu. x.Max.
+1                Africa  47.00     53.00    57.50  57.96     61.00  74.00
+2              Americas  63.00     73.50    75.00  74.34     77.00  82.00
+3 Eastern Mediterranean  50.00     64.25    72.50  69.59     75.75  82.00
+4                Europe  63.00     74.00    77.00  76.74     81.00  83.00
+5       South-East Asia  64.00     66.00    69.00  69.36     72.00  77.00
+6       Western Pacific  60.00     68.50    72.00  72.33     76.50  83.00
+
+# We create a dataframe with numerical values only.
+
+> who_num <- who[c(3:9)]
+
+# Calculate correlations between all numeric values:
+# From table below we can see that LifeExpectancy does not correlate with Population. There is a high negative correlations
+# with LifeExpectancy and Under15, FertilityRate, ChildMortality. CellularSubscribers and Over60 correlates positively but these
+# are not as high. Highest correlation is with LifeExpectancy and ChildMortality. cor.test() p-value is close to zero which supports 
+# all other numeric variables correlation but not Population.
+#
+# Negative correlation can be expected with LifeExpectancy and Under15 as well as ChildMortality, and positive with Over60. Surprisingly 
+# CellularSubscribers correlates positively as well. Maybe this is about wealth, the wealthier the country is the higher is life expectancy
+# as well as more money to buy mobile devices and subscriptions.
+#
+# Negative correlation with Under15 could be explaned that if there are is a high percent of people under15 then obviously there are not
+# much very old people. This makes sense. Also positive correlation with over60 is logical since if there are high percent of  people over 60
+# then life expectancy is  obviously high. Population size does not correlate. ChildMortality high negative correlation means that 
+# when life expectancy is high there is low child mortality and this is based on quality of life and health care. In high life 
+# expectancy countries these things are well taken care of and in where these are not taken care of then child mortality is high.
+
+> cor(who_num)
+                      Population     Under15      Over60 FertilityRate LifeExpectancy ChildMortality CellularSubscribers
+Population           1.000000000 -0.05963387  0.01169349    -0.0696467     0.01627701   -0.003674624         -0.05485207
+Under15             -0.059633871  1.00000000 -0.82938997     0.9356361    -0.83646673    0.815075517         -0.61853304
+Over60               0.011693486 -0.82938997  1.00000000    -0.7014317     0.68812903   -0.624303317          0.44659428
+FertilityRate       -0.069646697  0.93563611 -0.70143167     1.0000000    -0.83778532    0.864263902         -0.61642941
+LifeExpectancy       0.016277014 -0.83646673  0.68812903    -0.8377853     1.00000000   -0.924563674          0.62595651
+ChildMortality      -0.003674624  0.81507552 -0.62430332     0.8642639    -0.92456367    1.000000000         -0.63770297
+CellularSubscribers -0.054852070 -0.61853304  0.44659428    -0.6164294     0.62595651   -0.637702969          1.00000000
+
+# p-value is much below cutoff value (0.05) so there is strong significancy and supports correlation.
+
+> cor.test(LifeExpectancy, ChildMortality)
+
+	Pearson's product-moment correlation
+
+data:  LifeExpectancy and ChildMortality
+t = -33.623, df = 192, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.9426593 -0.9010484
+sample estimates:
+       cor 
+-0.9245637 
+
+> cor.test(who_num$LifeExpectancy, who_num$Population)
+
+	Pearson's product-moment correlation
+
+data:  who_num$LifeExpectancy and who_num$Population
+t = 0.22557, df = 192, p-value = 0.8218
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.1248842  0.1567923
+sample estimates:
+       cor 
+0.01627701 
+
+# above not significant since p-value is high
+
+> cor.test(who_num$LifeExpectancy, who_num$Under15)
+
+	Pearson's product-moment correlation
+
+data:  who_num$LifeExpectancy and who_num$Under15
+t = -21.15, df = 192, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.8743148 -0.7885073
+sample estimates:
+       cor 
+-0.8364667 
+
+# above is significant based on p-value
+
+> cor.test(who_num$LifeExpectancy, who_num$Over60)
+
+	Pearson's product-moment correlation
+
+data:  who_num$LifeExpectancy and who_num$Over60
+t = 13.141, df = 192, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.6059999 0.7557422
+sample estimates:
+     cor 
+0.688129 
+
+# above is significant based on p-value
+
+> cor.test(who_num$LifeExpectancy, who_num$FertilityRate)
+
+	Pearson's product-moment correlation
+
+data:  who_num$LifeExpectancy and who_num$FertilityRate
+t = -21.261, df = 192, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.8753490 -0.7901684
+sample estimates:
+       cor 
+-0.8377853 
+
+# above is significant based on p-value
+
+> cor.test(who_num$LifeExpectancy, who_num$CellularSubscribers)
+
+	Pearson's product-moment correlation
+
+data:  who_num$LifeExpectancy and who_num$CellularSubscribers
+t = 11.122, df = 192, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.5319937 0.7046907
+sample estimates:
+      cor 
+0.6259565 
+
+# above is significant based on p-value
+
+# In all cases only population is insignificant and all other variables are cor.test is significant.
+
+> corr.test(who_num, use="complete")
+Call:corr.test(x = who_num, use = "complete")
+Correlation matrix 
+                    Population Under15 Over60 FertilityRate LifeExpectancy ChildMortality CellularSubscribers
+Population                1.00   -0.06   0.01         -0.07           0.02           0.00               -0.05
+Under15                  -0.06    1.00  -0.83          0.94          -0.84           0.82               -0.62
+Over60                    0.01   -0.83   1.00         -0.70           0.69          -0.62                0.45
+FertilityRate            -0.07    0.94  -0.70          1.00          -0.84           0.86               -0.62
+LifeExpectancy            0.02   -0.84   0.69         -0.84           1.00          -0.92                0.63
+ChildMortality            0.00    0.82  -0.62          0.86          -0.92           1.00               -0.64
+CellularSubscribers      -0.05   -0.62   0.45         -0.62           0.63          -0.64                1.00
+Sample Size 
+[1] 194
+Probability values (Entries above the diagonal are adjusted for multiple tests.) 
+                    Population Under15 Over60 FertilityRate LifeExpectancy ChildMortality CellularSubscribers
+Population                0.00       1      1             1              1              1                   1
+Under15                   0.41       0      0             0              0              0                   0
+Over60                    0.87       0      0             0              0              0                   0
+FertilityRate             0.33       0      0             0              0              0                   0
+LifeExpectancy            0.82       0      0             0              0              0                   0
+ChildMortality            0.96       0      0             0              0              0                   0
+CellularSubscribers       0.45       0      0             0              0              0                   0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option
+ 
+#####################################################################################################################################
+# Exercies 2, second bullet
+#####################################################################################################################################
+ 
+In the lecture, normal distributions were mentioned several times, but we have not used any statistical
+tests, only tried to determine the normality based on how the histogram of a variable resembles a bell-
+shaped graph. In R, the function shapiro.test offers the possibility to perform hypothesis testing regarding
+the normality of data values. First look at the help page of this function, try the examples to get familiar
+with the output of the analysis. Based on the histograms you created for the variables in the descriptive
+analysis, try to choose 1-2 variables that seem to follow a normal distribution and 1-2 variables that
+you think cannot be described as following a normal distribution. Using the shapiro.test function on the
+selected variables, confirm (or reject) you intuition!
+
+1. run shapiro.test() -examples
+
+# This look normally distributed on hist()
+# p-value > 0.1
+
+> shapiro.test(rnorm(100, mean = 5, sd = 3))
+
+	Shapiro-Wilk normality test
+
+data:  rnorm(100, mean = 5, sd = 3)
+W = 0.99082, p-value = 0.7306
+
+# The null-hypothesis of this test is that the population is normally distributed. Thus if the p-value is less than the chosen alpha level, 
+# then the null hypothesis is rejected and there is evidence that the data tested are not from a normally distributed population.
+# 
+# This doesn't look normally distributed.
+# p-value < 0.1
+
+> shapiro.test(runif(100, min = 2, max = 4))
+
+	Shapiro-Wilk normality test
+
+data:  runif(100, min = 2, max = 4)
+W = 0.94479, p-value = 0.0003824
+
+> shapiro.test(Under15)
+
+	Shapiro-Wilk normality test
+
+data:  Under15
+W = 0.94105, p-value = 4.033e-07
+
+> shapiro.test(Over60)
+
+	Shapiro-Wilk normality test
+
+data:  Over60
+W = 0.87029, p-value = 7.625e-12
+
+> shapiro.test(Population)
+
+	Shapiro-Wilk normality test
+
+data:  Population
+W = 0.22413, p-value < 2.2e-16
+
+> shapiro.test(FertilityRate)
+
+	Shapiro-Wilk normality test
+
+data:  FertilityRate
+W = 0.87709, p-value = 1.775e-11
+
+> shapiro.test(ChildMortality)
+
+	Shapiro-Wilk normality test
+
+data:  ChildMortality
+W = 0.80998, p-value = 1.243e-14
+
+> shapiro.test(CellularSubscribers)
+
+	Shapiro-Wilk normality test
+
+data:  CellularSubscribers
+W = 0.99257, p-value = 0.4306
+
+# According to shpiro.test only in CellularSubscribers p-value > 0.1. And null hypothesis cannot be rejected and variable in normally distributed.
+# In all other who numeric variables null hypothesis is rejeced and variables are not normally distributed.
+#
+# Form hist()-graphs I assumed that LifeExpectancy and CellularSubscribers are normally distributed but only CellularSubscribers is.
+#
+
+
+####################################################################################################################################
+# Excercies 1, third bullet
+#####################################################################################################################################
+
+First create a model using all the numerical variables (do not use country or region) to predict LifeEx-
+pentancy. Discuss the goodness of the model based on the summary of the linear regression analysis.
+
+attach(who)
+
+# We create a multiple linear regression model with four independent variables
+lifee_fit <- lm(LifeExpectancy~Population+Under15+Over60+FertilityRate+ChildMortality+CellularSubscribers)
+
+# We can see differences in the significance levels
+summary(lifee_fit)
+
+            > summary(lifee_fit)
+
+            Call:
+            lm(formula = LifeExpectancy ~ Population + Under15 + Over60 + 
+                FertilityRate + ChildMortality + CellularSubscribers)
+
+            Residuals:
+                Min      1Q  Median      3Q     Max 
+            -9.7340 -1.9024  0.4532  2.2628  7.8154 
+
+            Coefficients:
+                                Estimate Std. Error t value Pr(>|t|)    
+            (Intercept)          7.883e+01  2.467e+00  31.955   <2e-16 ***
+            Population           5.864e-07  1.722e-06   0.341   0.7338    
+            Under15             -2.284e-01  8.831e-02  -2.586   0.0105 *  
+            Over60               1.058e-01  6.386e-02   1.657   0.0992 .  
+            FertilityRate        9.334e-01  5.631e-01   1.658   0.0991 .  
+            ChildMortality      -1.877e-01  1.275e-02 -14.722   <2e-16 ***
+            CellularSubscribers  6.423e-03  7.729e-03   0.831   0.4070    
+            ---
+            Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+            Residual standard error: 3.246 on 187 degrees of freedom
+            Multiple R-squared:  0.8809,	Adjusted R-squared:  0.8771 
+            F-statistic: 230.5 on 6 and 187 DF,  p-value: < 2.2e-16
+
+#
+# Based on the model summary, according to R-squared value this model is good.
+# p-value is below cutoff (0.05) which means that the result is significant.
+#
+
+
+# We have to check the same assumptions
+##plot(HS,lifee_fit$residuals)
+
+install.packages("car")
+
+library("car")
+
+influencePlot(lifee_fit, id.n=3)
+
+# Checking normality
+qqPlot(lifee_fit)
+
+# Variance inflation factor: how much the variation in the coefficient is increased 
+# because of multicollinearity. To run this function, you have to install and 
+# load the package car first
+
+vif(lifee_fit)
+
+detach(who)
+
+
+#####################################################################################################################################
+# Excercies 1, fourth bullet
+#####################################################################################################################################
+
+Using the process of improving regression models (excluding non-relevant variables based on p-values and
+correlation), try to find an ”ideal” model that has high R 2 value and contains fewer variables. Use also
+the regsubsets function from the package leaps to obtain a visual comparison of the various regression
+models.
+
+# We will investigate in the following how to improve a regression model 
+# by excluding some predictors based on different criteria. 
+
+vif(lifee_fit)
+
+# We remove Under15. Value as it has the highest p-value
+lifee_fit1 <- lm(LifeExpectancy~Population+Over60+FertilityRate+ChildMortality+CellularSubscribers)
+
+# The explained variance increased, but not much
+summary(lifee_fit1)
+
+# We remove FertilityRate. Value as it has the highest p-value
+
+lifee_fit2 <- lm(LifeExpectancy~Population+Over60+ChildMortality+CellularSubscribers)
+
+# The explained variance increased, but not much
+# higest adjusted R^2 = 0.8738 which is very close max value (1) and is high.
+# Leaving out other variables makes R squared go lower and makes model worse.
+#
+
+summary(lifee_fit2)
+
+install.packages("leaps")
+library(leaps)
+subsets <- regsubsets(LifeExpectancy~Population+Over60+FertilityRate+ChildMortality+CellularSubscribers, who_num)
+summary(subsets)
+
+        > summary(subsets)
+        Subset selection object
+        Call: regsubsets.formula(LifeExpectancy ~ Population + Over60 + FertilityRate + 
+            ChildMortality + CellularSubscribers + Under15, who_num)
+        6 Variables  (and intercept)
+                            Forced in Forced out
+        Population              FALSE      FALSE
+        Over60                  FALSE      FALSE
+        FertilityRate           FALSE      FALSE
+        ChildMortality          FALSE      FALSE
+        CellularSubscribers     FALSE      FALSE
+        Under15                 FALSE      FALSE
+        1 subsets of each size up to 6
+        Selection Algorithm: exhaustive
+                Population Over60 FertilityRate ChildMortality CellularSubscribers Under15
+        1  ( 1 ) " "        " "    " "           "*"            " "                 " "    
+        2  ( 1 ) " "        " "    " "           "*"            " "                 "*"    
+        3  ( 1 ) " "        " "    "*"           "*"            " "                 "*"    
+        4  ( 1 ) " "        "*"    "*"           "*"            " "                 "*"    
+        5  ( 1 ) " "        "*"    "*"           "*"            "*"                 "*"    
+        6  ( 1 ) "*"        "*"    "*"           "*"            "*"                 "*"    
+
+# Above graph show us in first line that ChildMortality is most significant. In row two Under15 comes next.
+
+###############################################################
+Excercies 2 starts here
+###############################################################
+
+
+#
+# Naive forcasting method
+# First read csv: times <- read.csv("timeseries.csv")
+# Then run function newforecast <- DoNaive()
+#
+
+times <- read.csv("timeseries.csv")
+
+DoNaive <- function() {
+  x <- c(0)
+  for (i in 1:nrow(times)) {
+    x <- c(x,times[i,1])
+  }
+  tsx <- ts(x)
+  return(tsx)
+}
+
+times2 <- DoNaive() # forecast will be in "times2"
+
+#
+# Moving average forecasting method version 2.0
+# Taking n as a parameter for how many periods are used for forecasting.
+# n is at least 2
+#
+
+DoMovingAverage <- function(n, ts) {
+  # fill n periods in forecast with nulls. n>1
+  forecast <- c(0) # in forecast first period is null
+  m <- n-1 # decrease m by one
+  for (i in 1:m) {
+    forecast <- c(forecast,0)                
+  }
+  
+  i <- 0
+  count <- nrow(ts)
+  for (i in n:count) { # loop through timeseries
+    fperiod <- 0
+    lindex <- i-n+1
+    hindex <- lindex+n-1
+    for (j in lindex:hindex) { # loop through n periods in times
+      fperiod <- fperiod + ts[j,1]
+    }
+    fperiod <- fperiod/n
+    forecast <- c(forecast,fperiod)
+  }
+  tsforecast <- ts(forecast)
+  return(tsforecast)
+}
+
+
+times3 <- DoMovingAverage(3, times)
+
+#
+# Weighted moving average with vector spcifying the weights
+# number of weights in vector must be 2 or more but not more than rows in timeseries - weights in vector 
+#
+
+DoWeightedAverage <- function(ts, w) {
+  # fill n periods in forecast with nulls. n>1
+  forecast <- c(0) # in forecast first period is null
+  n <- length(w)
+  m <- length(w)-1 # decrease n by one
+  for (i in 1:m) {
+    forecast <- c(forecast,0)                
+  }
+  
+  i <- 0
+  count <- nrow(ts)
+  for (i in n:count) { # loop through timeseries
+    fperiod <- 0
+    lindex <- i-n+1
+    hindex <- lindex+n-1
+    wi <- 1
+    for (j in lindex:hindex) { # loop through n periods in times
+      fperiod <- fperiod + ts[j,1]*w[wi]
+      wi <- wi+1
+    }
+    fperiod <- fperiod/n
+    forecast <- c(forecast,fperiod)
+  }
+  tsforecast <- ts(forecast)
+  return(tsforecast)
+}
+
+# example weighted moving average calculation
+# wt=0.3 wt-1=0.6 wt-2=0.4
+w <- c(0.3, 0.6, 0.4)
+times4 <- DoWeightedAverage(times,w)
+
+#
+# Exponential smoothing
+#
+
+DoExponentialSmoothing <- function(ts,alpha) {
+  forecast <- c(0) # first forecast is null
+  forecast <- c(forecast,ts[1,1]) # initate the computation
+  count <- nrow(ts)
+  for (i in 2:count) {
+    a <- ts[i,1] * alpha
+    b <- forecast[i] * (1-alpha)
+    c <- (a+b)
+    forecast <- c(forecast,c)
+  }
+  tsforecast <- ts(forecast)
+  return(tsforecast)
+  
+}
+
+times5 <- DoExponentialSmoothing(times, 0.7)
+
+
+#
+# Cumulative Error
+# first argument timeseries.csv and second forecast
+#
+
+DoCumulative <- function(x,y){
+  sumu <- 0
+  count <- nrow(times)
+  # skip preceeding 0 in forecast
+  j <- 1 #this is the first index for forecast
+  while (y[j]==0){j=j+1}
+  for (i in j:count) {
+    u <- x[i,1] - y[i]
+    sumu <- sumu + u
+    # cat(x[i,1], y[i], sep="\t", "\n")
+  }
+  return(sumu)
+}
+
+DoCumulative(times, times5)
+
+#
+# Cumulative Average Error
+# first argument timeseries.csv and second forecast
+#
+
+DoAverage <- function(x,y){
+  sumu <- 0
+  j <- 1 #this is the first index for forecast
+  while (y[j]==0){j=j+1}
+  count <- nrow(times)
+  rcount <- count-j
+  for (i in j:count) {
+    u <- x[i,1] - y[i]
+    sumu <- sumu + u
+    # cat(x[i,1], y[i], sep="\t", "\n")    
+  }
+  sumu <- sumu/rcount
+  return(sumu)
+}
+
+#
+# MEA
+#
+
+DoMeanAbsolute <- function(x,y){
+  sumu <- 0
+  j <- 1 #this is the first index for forecast
+  while (y[j]==0){j=j+1}
+  count <- nrow(times)
+  rcount <- count-j
+  for (i in 2:count) {
+    u <- x[i,1] - y[i]
+    sumu <- sumu + abs(u)
+    # cat(x[i,1], y[i], sep="\t", "\n")
+  }
+  sumu <- sumu / rcount
+  return(sumu)
+}
+
+#
+# MSE
+#
+
+DoMeanSquared <- function(x,y){
+  sumu <- 0
+  j <- 1 #this is the first index for forecast
+  while (y[j]==0){j=j+1}
+  count <- nrow(times)
+  rcount <- count-j
+  for (i in j:count) {
+    u <- x[i,1] - y[i]
+    sumu <- sumu + u*u
+    # cat(x[i,1], y[i], sep="\t", "\n")
+  }
+  sumu <- sumu / rcount
+  return(sumu)
+}
+
+#
+# MAPE
+#
+
+DoMeanAbsolute <- function(x,y){
+  sumu <- 0
+  j <- 1 #this is the first index for forecast
+  while (y[j]==0){j=j+1}
+  count <- nrow(times)  # skip the first row, there is no forecast.\
+  rcount <- count-j
+  for (i in j:count) {
+    u <- x[i,1] - y[i] # calculate difference
+    sumu <- sumu + (abs(u)/x[i,1])*100
+    cat(x[i,1], y[i], sep="\t", "\n")
+  }
+  sumu <- sumu / rcount # calculate avg
+  return(sumu)
+}
+
+
+# Excercies 2, part 3, first bullet
+# DoNaive()
+
+# DoNaive() uses times timeseries
+times <- read.csv("timeseries.csv")
+DoNaive()
+
+#
+# Excercies 2, part 3, bullet 2
+#
+
+DoMovingAverage(2, times)
+#
+# Excercies 2, part 3, bullet 3
+#
+
+Excercise2ThirdBullet <- function() {
+  i <- 0
+  minerror <- 99999
+  bestweight <- 0
+  count <- 0
+  w <- c(0,0)
+  while (i < 1.01) {
+    w[1] <- i
+    w[2] <- 1-w[1]
+#    cat(w[1], w[2], sep="\t", "\n")
+    
+    x <- DoWeightedAverage(times,w)
+    y <- DoMeanAbsolute(times,x)
+
+            #print(y)
+    if (y<minerror) {
+      minerror <- y
+      bestweight <- w[1]
+      cat(bestweight, minerror, sep="\t", "\n")
+    }
+    i <- i + 0.01
+    # print(y)
+    count <- count+1
+  }
+  print("result==>")
+  print(minerror)
+  print(bestweight)    
+}
+
+Excercise2FourthBullet <- function() {
+  i <- 0
+  minerror <- 99999
+  bestweight <- 0
+  count <- 0
+  w <- 0
+  while (i < 1.01) {
+    w <- i
+    x <- DoExponentialSmoothing(times,w)
+    y <- DoMeanAbsolute(times,x)
+    if (y<minerror) {
+      minerror <- y
+      bestweight <- w[1]
+    }
+    i <- i + 0.01
+    #print(y)
+    count <- count+1
+  }
+  cat("result",minerror, bestweight, sep="\t", "\n")
+}
+
+#
+# Best performing method
+#
+# run all methods and plot charts
+#
+
+times2 <- DoNaive() # forecast will be in "times2"
+times3 <- DoMovingAverage(3, times)
+
+# this function tells us the best weight in 
+# moving average
+Excercise2ThirdBullet()
+
+# result is "c(0,1)"
+
+times4 <- DoWeightedAverage(times,c(0,1))
+
+
+# this function tells us the best weight in 
+# exponential smoothing
+#
+Excercise2FourthBullet()
+
+# result is "c(0.16, 0.84)"
+
+times5 <- DoExponentialSmoothing(times,0.16)
+
+# Report which out of the four methods shows the best performance!
+#
+# I think exponential smoothing with alpha 0.16 
+# is best performing because it has least error in 
+# MEA, MSE and MAPE accuracy. It is not the best in cumulative error
+# or cumulative average but not worst either.
+# 
+
+Cumulative
+DoCumulative(times, times2)
+DoCumulative(times, times3)
+DoCumulative(times, times4)
+DoCumulative(times, times5)
+
+> DoCumulative(times, times2)
+[1] 431.059
+> DoCumulative(times, times3)
+[1] 622.1133
+> DoCumulative(times, times4)
+[1] 42441.48
+> DoCumulative(times, times5)
+[1] 1846.607
+
+Cumulative Average
+DoAverage(times, times2)
+DoAverage(times, times3)
+DoAverage(times, times4)
+DoAverage(times, times5)
+
+> DoAverage(times, times2)
+[1] 3.653042
+> DoAverage(times, times3)
+[1] 5.363046
+> DoAverage(times, times4)
+[1] 362.7477
+> DoAverage(times, times5)
+[1] 15.64921
+
+MEA
+DoMeanAbsolute(times, times2)
+DoMeanAbsolute(times, times3)
+DoMeanAbsolute(times, times4)
+DoMeanAbsolute(times, times5)
+
+> DoMeanAbsolute(times, times2)
+[1] 123.5985
+> DoMeanAbsolute(times, times3)
+[1] 131.0118
+> DoMeanAbsolute(times, times4)
+[1] 377.5746
+> DoMeanAbsolute(times, times5)
+[1] 107.4666
+
+MSE
+DoMeanSquared(times, times2)
+DoMeanSquared(times, times3)
+DoMeanSquared(times, times4)
+DoMeanSquared(times, times5)
+
+> DoMeanSquared(times, times2)
+[1] 33540.5
+> DoMeanSquared(times, times3)
+[1] 29709.1
+> DoMeanSquared(times, times4)
+[1] 155136.1
+> DoMeanSquared(times, times5)
+[1] 24897.01
+
+MAPE
+DoMeanAbsolute(times, times2)
+DoMeanAbsolute(times, times3)
+DoMeanAbsolute(times, times4)
+DoMeanAbsolute(times, times5)
+
+> DoMeanAbsolute(times, times2)
+[1] 123.5985
+> DoMeanAbsolute(times, times3)
+[1] 131.0118
+> DoMeanAbsolute(times, times4)
+[1] 377.5746
+> DoMeanAbsolute(times, times5)
+[1] 107.4666
+
