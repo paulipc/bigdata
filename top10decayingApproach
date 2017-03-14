@@ -1,0 +1,43 @@
+import time
+import requests
+import json
+from collections import defaultdict  # available in Python 2.5 and newer
+import operator
+
+
+starttime=time.time()
+d = defaultdict(float) # counts for topics
+treshold = 1/2 # this is a treshold when topic is dropped from counting. Must be less than 1
+c = float(1)/1000000000 # this is a constant
+r = requests.get('http://stream.meetup.com/2/rsvps', stream=True)
+
+for raw_rsvp in r.iter_lines():
+    timediff = int(time.time()-starttime)    
+    if raw_rsvp:
+        rsvp = json.loads(raw_rsvp)
+        list_topics = rsvp[u'group'][u'group_topics']
+        for t in list_topics:
+            topic = t['topic_name']
+
+            # decaying window:
+            # for each score we are counting multiply with (1-c)
+            for k, v in d.items():
+                d[k] *= (float(1)-c)
+
+            # add 1 to topic
+            if topic in d: # exist in dict
+                d[topic] += 1
+            else: # add key to dict with value 1
+                d[topic] = float(1)
+            
+            # del old topics
+            for k,v in d.items(): # if any score is below 1/2 drop it
+                if d[k] < treshold:
+                    del d[k]
+
+    if timediff >= 10: # 86400 sec on 24h
+        print ("sekuntia meni ", timediff)
+        break
+                    
+# after selected time, d needs to be sorted and top 10 printed
+sorted(d.iteritems(), key=operator.itemgetter(1), reverse=True)
