@@ -1,7 +1,4 @@
-#
-# code here to make file as (a,b) and so on. NO Spark just python from notebook to do this file operation.
-#
-def readdata(k, fname="data3.txt"):
+def readdata(k, fname="data.txt"):
     C_k = []
     with open(fname, 'r') as f:
         for l in f:
