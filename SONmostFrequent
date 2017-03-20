@@ -35,9 +35,19 @@ def support(line):
          return False
 
 lines = sc.textFile("uusdata2.txt") #.map(lambda line: line.split(","))
-ccounts = lines.flatMap(lambda line: line.split(" ")) \
-             .map(lambda word: (word, 1)) \
+ccounts = lines.map(lambda word: (word, 1)) \
              .reduceByKey(lambda a, b: a + b)
+
+
+popular = ccounts.filter(support)
+#popular.collect()
+
+#
+## in SON this is second MAP and REDUCE
+#
+linesnew = lines.map(lambda x: (x,0))
+joinedpopular = popular.join(linesnew).map(lambda e: (e[0], e[1][0])).map(lambda d: (d[0],1)).reduceByKey(lambda a, b: a + b)
+
 
 popular = ccounts.filter(support)
 popular.collect()
