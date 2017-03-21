@@ -1,0 +1,75 @@
+######################################################################################
+# FIRST PASS
+
+singles_count = {} # singles count
+bucket = {} # buckets can contain many tuples
+bucket_count = {} # count how many items in each bucket
+C_k = [] # this is a tuple got from baskets
+k = 2
+with open("data.txt", 'r') as f:
+    for l in f:
+        line = l[:-1]
+        if line == "":  # reset k-tuple for new basket
+            C_k = [] # make tuple empty for next tuple
+            continue
+
+        C_k.append(line)
+        # add single items and counts to sd dict
+        singles_hash = abs(hash(line)) % 4215
+        if singles_hash in singles_count:
+            singles_count[singles_hash] += 1
+        else:
+            singles_count[singles_hash] = 1
+
+        if len(C_k) == k:
+            # here we can add tuples to td
+            tuples_hash = abs(hash(C_k[0] + C_k[1])) % 4215
+            if tuples_hash in bucket:
+                bucket[tuples_hash].append(C_k)
+                bucket_count[tuples_hash] += 1
+            else:
+                bucket[tuples_hash] = [C_k]
+                bucket_count[tuples_hash] = 1
+            #yield C_k[:]  # 'C_k[:]' is a copy of 'C_k'
+            C_k = C_k[1:]
+
+######################################################################################
+# BETWEEN PASSES
+
+# make a bitvector
+s = 100 # support
+from bitarray import bitarray
+gBitarray = bitarray(4215) # here we'll but all items that are above support level
+gBitarray.setall(0)
+# change dict to bitarray
+for bucket_hash, bucket_list in bucket.iteritems():
+    if len(bucket_list) >= s:
+        gBitarray[bucket_hash] = 1
+
+
+######################################################################################
+# SECOND PASS
+
+#
+## Read file second time
+#
+
+C_k = []
+with open("data.txt", 'r') as f:
+    for l in f:
+        line = l[:-1]
+
+        if line == "":  # reset k-tuple for new basket
+            C_k = []
+            continue
+
+        C_k.append(line)  # add new item from basket, return k-tuple
+        if len(C_k) == k:
+            tuples_hash = abs(hash(C_k[0] + C_k[1])) % 4215
+            if gBitarray[tuples_hash]:
+                ihash = abs(hash(C_k[0])) % 4215
+                jhash = abs(hash(C_k[1])) % 4215
+                if ihash >= s and jhash >= s:
+                    print '('+C_k[0]+','+C_k[1]+')'
+            #yield C_k
+            C_k = C_k[1:]
