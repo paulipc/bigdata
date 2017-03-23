@@ -15,37 +15,26 @@ B = numpy.random.rand(N,N)  # random matrix size about 1000x1000
 
 rows_A = numpy.array_split(A, bands, axis=0) # split rows to bands
 columns_B = numpy.array_split(B, bands, axis=1) # split columns to bands
+
 rows_A_ix = [(idx, row) for idx,row in enumerate(rows_A)] # add index to each block to rows and columns
 columns_B_ix = [(idx, col) for idx,col in enumerate(columns_B)]
-
-
-t = time()
 C_true = numpy.dot(A, B) # calculate without parallellization to verify the result at the end
-#print "One machine: %.2fsec" % (time()-t)
+
 t = time()
+
 rowsRDD = sc.parallelize(rows_A_ix) # parallellizies splitted rows
 colsRDD = sc.parallelize(columns_B_ix) # parallellizies splitted columns
 
-#indexedRows = rowsRDD.zipWithIndex() # add index to splitted rows
-#indexedCols = colsRDD.zipWithIndex() # add index to splitted columns
-
-#pairs = indexedRows.cartesian(indexedCols) # make cartesian product between splitted rows matrices and splitted columns matrices
 pairs = rowsRDD.cartesian(colsRDD)
 D = pairs.collect()
 O = numpy.empty((N,N))
-i = 0
-j = 0
-m = len(D)
-for t in D:
-    if i == m:
-            j += 1
-            i = 0
-    row = t[0]
-    col = t[1]
-    #dprod = numpy.dot(row[0], col[0])
-    dprod = numpy.dot(row[0], col[0])
-    O[j:j+band_size, i:i+band_size] = numpy.dot(row[0], col[0])
-    i += 1
+
+for el in D:
+    xind = el[0][0]*band_size # this is index where we need to put this element
+    yind = el[1][0]*band_size # this is index where we need to put this element
+    el1 = el[0][1] # get row matrix
+    el2 = el[1][1] # get column matrix
+    O[xind:xind+band_size, yind:yind+band_size] = numpy.dot(el1, el2)
 
 #print "Parallel: %.2fsec" % (time()-t)
 print "Result is correct: ", numpy.allclose(O, C_true)
