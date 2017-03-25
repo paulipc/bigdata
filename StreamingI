@@ -32,34 +32,16 @@ def readdata(k, fname):
                 C_k = C_k[1:]
 
 
-# this code generates random stream of binary data
-# def generate_random_stream(length):
-#     """Generate a random stream of booleans, 10% of them are ones and 90% are zeros.
-#     """
-#     for _ in range(length):
-#         yield bool(random.random() >= 0.9)
-        
 def generate_random_stream():
     """
     Reads malware training files one by one and sends itmem to stream
     :return:
     """
-    mypath = './dataset2/malware-training/'
+    mypath = './dataset/malware-training/'
     onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
     for file in onlyfiles:
-        for item in readdata(k=1, fname=mypath + file):
+        for item in readdata(k=3, fname=mypath + file):
             yield item
-
-mostpopular = {}
-
-def top10():
-    global mostpopular
-
-    x = generate_random_stream()
-    if x in mostpopular:
-        mostpopular[x] += 1
-    else:
-        mostpopular[x] = 1
 
 N = 10000  # size of sliding window
 
@@ -162,9 +144,55 @@ stream = [i for i in generate_random_stream()]
 for element in stream:
      update(element)
         
-for i in (10, 100, 1000, 10000):
-    x_true = sum(stream[-i:])
-    x = get_count(i)
-    xmax =  math.ceil(x + x*error_rate)
-    xmin = math.floor(x - x*error_rate)
-    print ("DGIM estimated sum over last %d elements is %.0f-%.0f (true: %d)" % (i, xmin, xmax, x_true))
+output = stream[-3825:]
+
+print(len(output))
+d = {}
+for o in output:
+    out = o[0]+'+'+o[1]+'+'+o[2]
+    if out in d:
+        d[out] += 1
+    else:
+        d[out] = 1
+
+import operator
+
+maxhash = ''
+maxv = 0
+toplist = []
+i = 0
+while(i < 10):
+    for k,v in d.items():
+        if v > maxv:
+            maxv = v
+            maxhash = k
+
+    toplist.append((maxhash,maxv))
+    del d[maxhash]
+    i += 1
+    maxv = 0
+
+#print(maxhash, d[maxhash])
+
+#sorted_d = sorted(d.items(), key=operator.itemgetter(1))
+
+print('hello world')
+i = 0
+for el in toplist:
+    print(el[0], el[1])
+    i += 1
+    if i == 10:
+        break
+
+# for o in output:
+#     print(o)
+#x = get_count(i)
+#print ("DGIM estimated sum over last %d elements is %.0f-%.0f (true: %d)" % (i, xmin, xmax, x_true))
+
+
+# for i in (10, 100, 1000, 10000):
+#     x_true = sum(stream[-i:])
+#     x = get_count(i)
+#     xmax =  math.ceil(x + x*error_rate)
+#     xmin = math.floor(x - x*error_rate)
+#     print ("DGIM estimated sum over last %d elements is %.0f-%.0f (true: %d)" % (i, xmin, xmax, x_true))
